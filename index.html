@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>纹样库 · 团队印花图管理</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M8 10h16M8 16h16M8 22h10' stroke='%23e7b75b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section id="loginScreen" class="login-screen"><div class="login-brand"><span class="brand-mark">✦</span><span>纹样库</span></div><div class="login-panel"><div class="login-copy"><p class="eyebrow">WOVEN STUDIO · TEAM ARCHIVE</p><h1>让每一个灵感，<em>保持原样。</em></h1><p>上传、整理并共享团队的印花图。原文件完整保存，随时可取用。</p><div class="login-note">✓ 原图无损保存　✓ 5 人团队空间</div></div><form id="loginForm" class="login-form"><h2>登录团队空间</h2><p>使用你的账号继续</p><label>邮箱地址<input id="loginEmail" type="email" placeholder="name@studio.com" required value="lin@woven.studio"></label><label>密码<div class="password-wrap"><input id="loginPassword" type="password" placeholder="请输入密码" required value="woven123"><button type="button" id="togglePassword">显示</button></div></label><div class="login-options"><label class="check"><input type="checkbox" id="rememberMe" checked> 记住我</label><a href="#" id="forgotPassword">忘记密码？</a></div><button class="upload-btn login-btn" type="submit">进入团队空间</button><div id="loginError" class="login-error"></div><small class="demo-hint">演示账号：lin@woven.studio / woven123</small></form></div></section>
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">✦</span><span>纹样库</span></div>
+      <p class="eyebrow">团队空间</p>
+      <div class="workspace"><div class="workspace-avatar">W</div><div><strong>Woven Studio</strong><small>5 位成员</small></div><span class="chevron">⌄</span></div>
+      <nav class="nav"><button class="nav-item active" data-view="library"><span>▦</span> 全部印花 <b id="navCount">0</b></button><button class="nav-item" data-view="folders"><span>□</span> 文件夹</button><button class="nav-item" data-view="favorites"><span>♡</span> 收藏</button></nav>
+      <div class="sidebar-section"><div class="section-head"><span>我的文件夹</span><button id="newFolderBtn">＋</button></div><div id="folderList"></div></div>
+      <div class="storage-card"><div class="storage-top"><span>存储空间</span><span id="storageText">0 B / 100 GB</span></div><div class="progress"><i id="storageBar"></i></div><small>原文件无损保存</small></div>
+      <div class="profile"><div class="avatar">L</div><div><strong>Lin</strong><small>管理员</small></div><button id="logoutBtn" title="退出登录">↪</button></div>
+    </aside>
+    <section class="content">
+      <header class="topbar"><div class="crumb"><span>团队空间</span><b>/</b><strong id="crumbTitle">全部印花</strong></div><div class="top-actions"><button class="icon-btn" title="通知">♧</button><div class="mini-avatar">L</div></div></header>
+      <div class="page-head"><div><p class="eyebrow">WOVEN STUDIO · DESIGN ARCHIVE</p><h1 id="pageTitle">全部印花</h1><p class="subtitle" id="pageSubtitle">保存每一个灵感，保持原始画质。</p></div><div class="head-actions"><label class="search"><span>⌕</span><input id="searchInput" placeholder="搜索名称、标签..." /></label><button class="upload-btn" id="uploadBtn">＋ 上传印花图</button><input type="file" id="fileInput" multiple hidden /></div></div>
+      <div class="filters"><div class="tabs"><button class="tab active" data-filter="all">全部 <span id="allCount">0</span></button><button class="tab" data-filter="recent">最近上传</button><button class="tab" data-filter="mine">我的上传</button></div><div class="filter-actions"><select id="folderFilter"><option value="all">所有文件夹</option></select><select id="typeFilter"><option value="all">所有类型</option><option>连续花</option><option>定位花</option><option>提花</option><option>数码印花</option></select><select id="seasonFilter"><option value="all">所有季节</option><option>春季</option><option>夏季</option><option>秋季</option><option>冬季</option><option>节日</option></select><button class="sort-btn" id="sortBtn">最近上传 ↕</button><button class="view-btn active">▦</button></div></div>
+      <section id="emptyState" class="empty-state"><div class="empty-art">✦</div><h2>开始建立你的印花图档案</h2><p>上传 JPG、PNG、TIFF、PSD、AI 或 SVG，原文件会完整保存。</p><button class="upload-btn" id="emptyUpload">上传第一张图</button></section>
+      <section id="gallery" class="gallery"></section>
+      <div id="toast" class="toast"></div>
+    </section>
+  </main>
+  <div id="modal" class="modal hidden"><div class="modal-card"><button class="modal-close" id="modalClose">×</button><p class="eyebrow">上传到团队空间</p><h2>添加印花图</h2><p class="modal-copy">支持批量上传。原始文件会保留，不会被压缩。</p><label class="dropzone" id="dropzone"><span>↑</span><strong>拖拽文件到这里</strong><small>或点击选择文件 · 单个文件最大 2 GB</small><input type="file" id="modalFileInput" multiple hidden /></label><div id="selectedFiles" class="selected-files"></div><div class="modal-fields"><label>文件夹<select id="uploadFolder"></select></label><label>印花类型<select id="uploadType"><option>连续花</option><option>定位花</option><option>提花</option><option>数码印花</option></select></label><label>季节<select id="uploadSeason"><option>春季</option><option>夏季</option><option>秋季</option><option>冬季</option><option>节日</option></select></label><label>设计日期<input id="uploadDate" type="date"></label><label class="wide">标签（可选）<input id="uploadTags" placeholder="例如：圣诞、复古、花卉" /></label></div><button class="upload-btn full" id="confirmUpload">保存原文件</button></div></div>
+  <script src="app.js"></script>
+</body>
+</html>
